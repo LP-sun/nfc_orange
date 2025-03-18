@@ -53,7 +53,8 @@
         .image-container {
             width: 100%;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
         }
 
         img {
@@ -61,6 +62,21 @@
             max-height: 70vh;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .refresh-button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .refresh-button:hover {
+            background-color: #0056b3;
         }
 
         /* 移动端优化 */
@@ -98,24 +114,43 @@
     </div>
     <div class="image-container">
         <img id="randomImage" src="" alt="随机图片">
+        <button class="refresh-button" onclick="refreshImage()">换一张</button>
     </div>
 
     <script>
+        let lastImage = "";
+
         async function loadImages() {
             try {
                 const response = await fetch("images.json"); // 读取JSON文件
                 const data = await response.json();
-                const images = data.images; // 获取图片列表
-
-                // 随机选择一张图片
-                const randomIndex = Math.floor(Math.random() * images.length);
-                document.getElementById("randomImage").src = "images/" + images[randomIndex];
+                return data.images; // 获取图片列表
             } catch (error) {
                 console.error("加载图片失败", error);
+                return [];
             }
         }
 
-        loadImages(); // 页面加载时执行
+        async function refreshImage() {
+            const images = await loadImages();
+            if (images.length === 0) return;
+
+            let newImage = lastImage;
+            while (newImage === lastImage) {
+                const randomIndex = Math.floor(Math.random() * images.length);
+                newImage = "images/" + images[randomIndex];
+            }
+
+            document.getElementById("randomImage").src = newImage;
+            lastImage = newImage;
+        }
+
+        async function autoRefresh() {
+            await refreshImage();
+            setTimeout(autoRefresh, 5000); // 每5秒自动更换图片
+        }
+
+        autoRefresh(); // 页面加载时启动自动刷新
     </script>
 </body>
 </html>
