@@ -24,15 +24,18 @@ jobs:
         with:
           python-version: '3.x'  # 适用于所有 3.x 版本
 
-      - name: 运行 Python 生成主题 JSON 文件
+      - name: 运行 Python 脚本生成 images.json
         run: python generate_images_json.py
-  
+
       - name: 提交并推送更新
         run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
           git add images/*.json
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "Auto-generate theme JSON files [skip ci]"
+            git commit -m "Auto-generate images.json [skip ci]"  # 避免再次触发 Actions
+            git pull --rebase origin main
             git push origin main
           fi
