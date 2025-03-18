@@ -42,6 +42,43 @@ def get_images_by_themes(selected_themes):
     return images
 
 
+import os
+import json
+
+# 目标文件夹
+IMAGE_FOLDER = "images"
+EXCLUDE_FOLDERS = {"test"}  # 需要排除的文件夹
+OUTPUT_FOLDER = "images"
+
+
+def generate_json_files():
+    """为每个子文件夹（主题）生成单独的 JSON 文件"""
+    theme_files = {}
+
+    for theme in os.listdir(IMAGE_FOLDER):
+        theme_path = os.path.join(IMAGE_FOLDER, theme)
+
+        if not os.path.isdir(theme_path) or theme in EXCLUDE_FOLDERS:
+            continue  # 只处理文件夹，并排除 test 文件夹
+
+        images = [
+            f"{theme}/{file}" for file in os.listdir(theme_path)
+            if file.lower().endswith((".png", ".jpg", ".jpeg", ".webp",
+                                      ".gif"))
+        ]
+
+        if images:
+            json_filename = os.path.join(OUTPUT_FOLDER, f"{theme}.json")
+            with open(json_filename, "w", encoding="utf-8") as json_file:
+                json.dump({"images": images},
+                          json_file,
+                          indent=4,
+                          ensure_ascii=False)
+            theme_files[theme] = json_filename
+
+    print(f"✅ 生成 {len(theme_files)} 个主题 JSON 文件：{list(theme_files.keys())}")
+
+
 def generate_images_json():
     """生成 images.json 文件"""
     selected_themes = load_selected_themes()
@@ -59,3 +96,4 @@ def generate_images_json():
 
 if __name__ == "__main__":
     generate_images_json()
+    generate_json_files()

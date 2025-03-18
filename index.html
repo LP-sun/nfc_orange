@@ -124,10 +124,19 @@
         let lastImage = "";
         const urlParams = new URLSearchParams(window.location.search);
         const isTestMode = urlParams.get('test') === 'true';
+        const theme = urlParams.get('theme'); // 获取 theme 参数
 
         async function loadImages() {
             try {
-                const jsonFile = isTestMode ? "test.json" : "images.json";
+                let jsonFile;
+                if (isTestMode) {
+                    jsonFile = "test.json";
+                } else if (theme) {
+                    jsonFile = `images/${theme}.json`; // 根据 theme 选择不同的 JSON
+                } else {
+                    jsonFile = "images.json";
+                }
+
                 console.log(`Loading ${jsonFile}`);
                 const response = await fetch(jsonFile + "?t=" + new Date().getTime()); // 防止缓存问题
                 if (!response.ok) throw new Error(`Failed to load ${jsonFile}`);
@@ -146,8 +155,7 @@
             let newImage;
             do {
                 const randomIndex = Math.floor(Math.random() * images.length);
-                newImage = "images/" + images[randomIndex];
-
+                newImage = "images/" + images[randomIndex]; // 直接使用 JSON 提供的路径
             } while (newImage === lastImage);
 
             document.getElementById("randomImage").src = newImage;
@@ -167,7 +175,6 @@
         document.addEventListener("DOMContentLoaded", () => {
             autoRefresh(); // 页面加载时启动自动刷新
         });
-
     </script>
 </body>
 
