@@ -9,15 +9,22 @@
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             line-height: 1.6;
             background-color: #f9f9f9;
             color: #333;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
+            text-align: center;
+        }
+
+        .content {
+            width: 90%;
+            max-width: 600px;
+            margin-bottom: 20px;
         }
 
         p {
@@ -42,9 +49,16 @@
         a:hover {
             text-decoration: underline;
         }
+
+        .image-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
         img {
             max-width: 90%;
-            max-height: 90vh;
+            max-height: 70vh;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
@@ -52,32 +66,39 @@
         /* 移动端优化 */
         @media (max-width: 600px) {
             body {
-                font-size: 18px; /* 增大字体大小 */
+                font-size: 18px;
+                padding: 10px;
+            }
+
+            .content {
                 padding: 10px;
             }
 
             li {
-                margin: 20px 0; /* 增加列表项间距 */
+                margin: 15px 0;
             }
 
             a {
                 padding: 10px;
                 background-color: #f0f0f0;
                 border-radius: 5px;
-                text-align: center;
+                display: inline-block;
             }
         }
     </style>
 </head>
 <body>
-    <p>Hello</p>
-    <p>谢谢你收下我的无料</p>
-
-    <ul>
-        <li>关注 <a href="https://space.bilibili.com/511867445">岛姐</a> 喵</li>
-        <li>关注 <a href="https://space.bilibili.com/511867445">名字带岛就是我</a> 谢谢喵</li>
-    </ul>
-    <img id="randomImage" src="" alt="随机图片">
+    <div class="content">
+        <p>Hello</p>
+        <p>谢谢你收下我的无料</p>
+        <ul>
+            <li>关注 <a href="https://space.bilibili.com/511867445">岛姐</a> 喵</li>
+            <li>关注 <a href="https://space.bilibili.com/511867445">名字带岛就是我</a> 谢谢喵</li>
+        </ul>
+    </div>
+    <div class="image-container">
+        <img id="randomImage" src="" alt="随机图片">
+    </div>
 
     <script>
         async function loadImages() {
@@ -96,7 +117,5 @@
 
         loadImages(); // 页面加载时执行
     </script>
-
-
 </body>
 </html>
