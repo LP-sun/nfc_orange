@@ -4,7 +4,7 @@ import json
 # 目标文件夹
 IMAGE_FOLDER = "images"
 THEMES_FILE = "themes.json"
-OUTPUT_FILE = "images.json"
+OUTPUT_FILE = "images/images.json"
 
 
 def load_selected_themes():
