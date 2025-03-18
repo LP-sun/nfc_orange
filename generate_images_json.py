@@ -54,7 +54,7 @@ def generate_images_json():
     with open(OUTPUT_FILE, "w", encoding="utf-8") as json_file:
         json.dump(image_data, json_file, indent=4, ensure_ascii=False)
 
-    print(f"✅ 成功生成 {OUTPUT_FILE}，包含 {len(image_files)} 张图片！")
+    print(f"✅ 成功生成 {OUTPUT_FILE}，包含 {len(image_files)} 张图片！!")
 
 
 if __name__ == "__main__":

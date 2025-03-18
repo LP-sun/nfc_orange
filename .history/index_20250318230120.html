@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关注列表</title>
+    <style>
+        /* 基础样式 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .content {
+            width: 90%;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 15px 0;
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .image-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        img {
+            max-width: 90%;
+            max-height: 70vh;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .refresh-button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .refresh-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* 移动端优化 */
+        @media (max-width: 600px) {
+            body {
+                font-size: 18px;
+                padding: 10px;
+            }
+
+            .content {
+                padding: 10px;
+            }
+
+            li {
+                margin: 15px 0;
+            }
+
+            a {
+                padding: 10px;
+                background-color: #f0f0f0;
+                border-radius: 5px;
+                display: inline-block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <p>Hello</p>
+        <p>谢谢你收下我的无料</p>
+        <ul>
+            <li>关注 <a href="https://space.bilibili.com/511867445">岛姐</a> 喵</li>
+            <li>关注 <a href="https://space.bilibili.com/511867445">名字带岛就是我</a> 谢谢喵</li>
+        </ul>
+    </div>
+    <div class="image-container">
+        <img id="randomImage" src="" alt="随机图片">
+        <button class="refresh-button" onclick="refreshImage()">换一张</button>
+    </div>
+
+    <script>
+        let lastImage = "";
+
+        async function loadImages() {
+            try {
+                const response = await fetch("images.json"); // 读取JSON文件
+                const data = await response.json();
+                return data.images; // 获取图片列表
+            } catch (error) {
+                console.error("加载图片失败", error);
+                return [];
+            }
+        }
+
+        async function refreshImage() {
+            const images = await loadImages();
+            if (images.length === 0) return;
+
+            let newImage = lastImage;
+            while (newImage === lastImage) {
+                const randomIndex = Math.floor(Math.random() * images.length);
+                newImage = "images/" + images[randomIndex];
+            }
+
+            document.getElementById("randomImage").src = newImage;
+            lastImage = newImage;
+        }
+
+        async function autoRefresh() {
+            await refreshImage();
+            setTimeout(autoRefresh, 5000); // 每5秒自动更换图片
+        }
+
+        autoRefresh(); // 页面加载时启动自动刷新
+    </script>
+</body>
+
+</html>
