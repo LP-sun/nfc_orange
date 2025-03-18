@@ -146,12 +146,12 @@
 
             document.getElementById("randomImage").src = newImage;
             lastImage = newImage;
-            autoRefresh;
+            clearTimeout(timeoutID);
+            timeoutID = setTimeout(autoRefresh, 10000); // 每5秒自动更换图片
         }
         async function autoRefresh() {
-            clearTimeout(timeoutID);
             await refreshImage();
-            timeoutID = setTimeout(autoRefresh, 5000); // 每5秒自动更换图片
+            timeoutID = setTimeout(autoRefresh, 10000); // 每5秒自动更换图片
         }
 
         autoRefresh(); // 页面加载时启动自动刷新
