@@ -1,0 +1,30 @@
+name: Generate images.json
+
+on:
+  push:
+    branches:
+      - main  # 监听 main 分支的变更
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出仓库代码
+        uses: actions/checkout@v3
+
+      - name: 设置 Python 环境
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'  # 适用于所有 3.x 版本
+
+      - name: 运行 Python 脚本生成 images.json
+        run: python generate_images_json.py
+
+      - name: 提交并推送更新
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add images.json
+          git commit -m "Auto-generate images.json"
+          git push
