@@ -13,6 +13,11 @@
             line-height: 1.6;
             background-color: #f9f9f9;
             color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
 
         p {
@@ -36,6 +41,12 @@
 
         a:hover {
             text-decoration: underline;
+        }
+        img {
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         /* 移动端优化 */
@@ -66,5 +77,27 @@
         <li>关注 <a href="https://space.bilibili.com/511867445">岛姐</a> 喵</li>
         <li>关注 <a href="https://space.bilibili.com/511867445">名字带岛就是我</a> 谢谢喵</li>
     </ul>
+    <img id="randomImage" src="" alt="随机图片">
+
+    <script>
+        // 图片库（请确保在 /images/ 目录下存放这些图片）
+        const images = [
+            "image1.jpg",
+            "image2.jpg",
+            "image3.jpg",
+            "image4.jpg",
+            "image5.jpg"
+        ];
+
+        // 随机选择一张图片
+        function getRandomImage() {
+            const randomIndex = Math.floor(Math.random() * images.length);
+            return "images/" + images[randomIndex];  // 图片路径
+        }
+
+        // 设置随机图片
+        document.getElementById("randomImage").src = getRandomImage();
+    </script>
+
 </body>
 </html>
