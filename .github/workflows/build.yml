@@ -9,9 +9,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: 检出仓库代码
+    steps:      
+      - name: 检出最新代码
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # 确保拉取完整 Git 历史
+
+      - name: 确保代码最新
+        run: |
+          git pull origin main
 
       - name: 设置 Python 环境
         uses: actions/setup-python@v4
@@ -29,8 +35,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "Auto-generate images.json"
-            git pull --rebase origin main  # 先拉取远程代码，避免冲突
+            git commit -m "Auto-generate images.json [skip ci]"  # 避免再次触发 Actions
+            git pull --rebase origin main
             git push origin main
           fi
-

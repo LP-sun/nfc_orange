@@ -129,12 +129,14 @@
             if (isTestMode) {
                 console.log("Test mode enabled: Loading test.json");
                 const response = await fetch("test.json"); // 读取测试 JSON 文件
+                const data = await response.json();
+                images = data.images;
             } else {
                 console.log("Normal mode: Loading themes.json images");
                 const response = await fetch("images.json"); // 读取 JSON 文件
+                const data = await response.json();
+                images = data.images;
             }
-            const data = await response.json();
-            images = data.images;
             return images;
         }
 
