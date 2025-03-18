@@ -120,19 +120,24 @@
     </div>
 
     <script>
-        let lastImage = "";
+        let timeoutID;
+        const urlParams = new URLSearchParams(window.location.search);
+        const isTestMode = urlParams.get('test') === 'true';
 
         async function loadImages() {
-            try {
-                const response = await fetch("images.json"); // 读取JSON文件
-                const data = await response.json();
-                return data.images; // 获取图片列表
-            } catch (error) {
-                console.error("加载图片失败", error);
-                return [];
+            let images;
+            if (isTestMode) {
+                console.log("Test mode enabled: Loading test.json");
+                const response = await fetch("test.json"); // 读取测试 JSON 文件
+            } else {
+                console.log("Normal mode: Loading themes.json images");
+                const response = await fetch("images.json"); // 读取 JSON 文件
             }
+            const data = await response.json();
+            images = data.images;
+            return images;
         }
-        let timeoutID;
+
         async function refreshImage() {
             const images = await loadImages();
             if (images.length === 0) return;
