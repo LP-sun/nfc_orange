@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -103,6 +104,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="content">
         <p>Hello</p>
@@ -131,6 +133,7 @@
             }
         }
 
+        let timeoutID;
         async function refreshImage() {
             const images = await loadImages();
             if (images.length === 0) return;
@@ -143,14 +146,15 @@
 
             document.getElementById("randomImage").src = newImage;
             lastImage = newImage;
+            clearTimeout(timeoutID);
         }
-
         async function autoRefresh() {
             await refreshImage();
-            setTimeout(autoRefresh, 5000); // 每5秒自动更换图片
+            timeoutID = setTimeout(autoRefresh, 5000); // 每5秒自动更换图片
         }
 
         autoRefresh(); // 页面加载时启动自动刷新
     </script>
 </body>
+
 </html>
