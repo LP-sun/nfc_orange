@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>关注列表</title>
+    <title>这是一份礼物</title>
     <style>
         /* 基础样式 */
         body {
@@ -132,7 +132,6 @@
                 return [];
             }
         }
-
         let timeoutID;
         async function refreshImage() {
             const images = await loadImages();
@@ -146,15 +145,21 @@
 
             document.getElementById("randomImage").src = newImage;
             lastImage = newImage;
-            clearTimeout(timeoutID);
-            timeoutID = setTimeout(autoRefresh, 10000); // 每5秒自动更换图片
+            resetTimer(); // 手动刷新时重置计时器
         }
+
+        function resetTimer() {
+            clearTimeout(timeoutID);
+            timeoutID = setTimeout(autoRefresh, 10000); // 10秒后自动刷新
+        }
+
         async function autoRefresh() {
             await refreshImage();
-            timeoutID = setTimeout(autoRefresh, 10000); // 每5秒自动更换图片
+            resetTimer();
         }
 
         autoRefresh(); // 页面加载时启动自动刷新
+
     </script>
 </body>
 
