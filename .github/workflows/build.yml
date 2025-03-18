@@ -30,6 +30,7 @@ jobs:
             echo "No changes to commit."
           else
             git commit -m "Auto-generate images.json"
+            git pull --rebase origin main  # 先拉取远程代码，避免冲突
             git push origin main
           fi
 
