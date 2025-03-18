@@ -23,8 +23,11 @@ jobs:
 
       - name: 提交并推送更新
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
           git add images.json
-          git commit -m "Auto-generate images.json"
-          git push
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Auto-generate images.json"
+            git push origin main
+          fi
+
